@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Book</title>
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: sans-serif;
+		}
+
+		body {
+			height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #1f74c9;
+		}
+
+		.form {
+			padding: 12px 24px;
+			border-radius: 8px;
+			background-color: #fff;
+		}
+
+		h1 {
+			text-align: center;
+			margin-bottom: 32px;
+			color: #fff;
+			font-size: 42px;
+			font-weight: 700;
+		}
+
+		span {
+			display: inline-block;
+			margin-top: 24px;
+			width: 100px;
+		}
+
+		input {
+			padding: 8px;
+			font-size: 16px;
+			border-radius: 5px;
+		}
+		
+		input[type="text"] {
+			width: 300px;
+			border: 1px #ccc solid;
+			color: #333;
+		}
+
+		input[type="submit"] {
+			margin-top: 16px;
+			padding: 16px;
+			width: 100%;
+			background-color: #4BB543;
+			border: none;
+			cursor: pointer;
+			color: #fff;
+		}
+
+		.item {
+			color: #999;
+			font-size: 18px;
+			font-weight: 700;
+		}
+
+		.modal {
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background-color: #00000050;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.modal-container {
+			background-color: #fff;
+			border-radius: 8px;
+			padding: 24px;
+			width: 400px;
+			text-align: center;
+		}
+
+		.modal-container > h2 {
+			color: #333;
+			margin-bottom: 24px;
+		}
+
+		button {
+			font-size: 16px;
+			padding: 8px;
+			width: 80px;
+			cursor: pointer;
+			border-radius: 5px;
+			border: none;
+			outline: none;
+			color: #fff;
+			font-weight: 700;
+		}
+
+		button ~ button {
+			margin-left: 24px;
+		}
+
+		.success {
+			background-color: #198754;
+		}
+
+		.danger {
+			background-color: #dc3545;
+		}
+
+		.hide {
+			display: none;
+		}
+
+		.message {
+			margin: 8px 0 -24px 108px;
+			font-weight: 500;
+			font-size: 14px;
+			color: #dc3545;
+		}
+		
+		.msg {
+			margin-bottom: 0 !important;
+			font-size: 18px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Phone Detail</h1>
+		<form th:object="${phone}" th:action="@{/phone/save/{id} (id=${code})}" th:method="${code} < 0 ? POST : PUT" class="form">
+			<div class="item">
+				<div class="message msg" th:text="${msg}"></div>
+				<span>Id:</span>
+				<input th:value="*{id}" type="text" readonly name="id">
+				<br>
+			</div>
+
+			<div class="item">
+				<span>Name:</span>
+				<input id="name" th:value="*{name}" type="text" name="name">
+				<div th:text="${msgName}" class="message"></div>
+				<br>
+			</div>
+			
+			<div class="item">
+				<span>Price:</span>
+				<input id="price" th:value="*{price}" type="text" name="price">
+				<div th:text="${msgPrice}" class="message"></div>
+				<br>
+			</div>
+
+			<div class="item">
+				<span>Brand:</span>
+				<input id="brand" th:value="*{brand}" type="text" name="brand">
+				<div th:text="${msgBrand}" class="message"></div>
+				<br>
+			</div>
+
+			<div class="item">
+				<span>Sold:</span>
+				<input id="sold" th:checked="*{sold}" type="checkbox" name="sold">
+				<br>
+			</div>
+
+			<input type="submit" value="Save Phone">
+		</form>
+		<div class="modal hide">
+			<div class="modal-container">
+				<h2>Đồng ý lưu thay đổi?</h2>
+				<button class="success">Yes</button>
+				<button class="danger">Cancel</button>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		const form = document.querySelector('.form')
+		const modal = document.querySelector(".modal")
+		
+		const submit = document.querySelector('input[type="submit"]')
+		const saveBtn = document.querySelector('button.success')
+		const cancelBtn = document.querySelector('button.danger')
+
+		submit.addEventListener('click', (e) => {
+			e.preventDefault()
+			
+			modal.classList.remove('hide')
+		})
+
+		cancelBtn.addEventListener('click', () => {
+			window.location.href = "/"
+		})
+
+		saveBtn.addEventListener('click', () => {
+			form.submit()
+		})
+
+	</script>
+</body>
+</html>
